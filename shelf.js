@@ -29,6 +29,58 @@ const slotsEl = document.getElementById("slots");
 const trayEl = document.getElementById("tray");
 const DEBUG = new URLSearchParams(location.search).has("debug");
 
+// ---------- placement sound ----------
+// A soft ceramic "clink" synthesized with Web Audio (no audio files). Inharmonic
+// bright partials for the porcelain ring + a short low body for the wood contact.
+const SOUND_KEY = "mug-shelf-sound";
+let soundOn = localStorage.getItem(SOUND_KEY) !== "off";
+let audioCtx = null;
+
+function clink() {
+  if (!soundOn) return;
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+  } catch { return; }
+  const ctx = audioCtx;
+  const t = ctx.currentTime;
+
+  const master = ctx.createGain();
+  master.gain.value = 0.16;
+  const lp = ctx.createBiquadFilter();
+  lp.type = "lowpass";
+  lp.frequency.value = 5200;
+  master.connect(lp).connect(ctx.destination);
+
+  const detune = 1 + (Math.random() - 0.5) * 0.08; // slight per-hit pitch variation
+
+  const partials = [1180, 1680, 2550];
+  const rel = [1.0, 0.5, 0.28];
+  partials.forEach((f, i) => {
+    const o = ctx.createOscillator();
+    o.type = i === 0 ? "triangle" : "sine";
+    o.frequency.value = f * detune;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.5 * rel[i], t + 0.004);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.18 + i * 0.02);
+    o.connect(g).connect(master);
+    o.start(t);
+    o.stop(t + 0.26);
+  });
+
+  const body = ctx.createOscillator();
+  body.type = "sine";
+  body.frequency.value = 190 * detune;
+  const bg = ctx.createGain();
+  bg.gain.setValueAtTime(0.0001, t);
+  bg.gain.exponentialRampToValueAtTime(0.4, t + 0.005);
+  bg.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
+  body.connect(bg).connect(master);
+  body.start(t);
+  body.stop(t + 0.12);
+}
+
 // placement[slot] = mug index into MUGS, or null
 let placement = new Array(15).fill(null);
 try {
@@ -166,6 +218,7 @@ function endDrag(e) {
 
   const target = hitSlot(e);
   if (target !== null) {
+    clink();
     const displaced = placement[target];
     placement[target] = mugIdx;
     if (fromSlot !== null && fromSlot !== target) {
@@ -231,6 +284,18 @@ document.getElementById("clear").addEventListener("click", () => {
   save();
   render();
 });
+
+const soundBtn = document.getElementById("sound");
+function updateSoundLabel() {
+  soundBtn.textContent = soundOn ? "Sound: on" : "Sound: off";
+}
+soundBtn.addEventListener("click", () => {
+  soundOn = !soundOn;
+  localStorage.setItem(SOUND_KEY, soundOn ? "on" : "off");
+  updateSoundLabel();
+  if (soundOn) clink(); // preview the sound when turning it on
+});
+updateSoundLabel();
 
 window.addEventListener("resize", renderSlots);
 
