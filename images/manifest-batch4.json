@@ -1,0 +1,83 @@
+[
+  {
+    "brand": "K.H. Würtz",
+    "brandUrl": "https://khwurtz.dk",
+    "name": "K.H. Würtz Cup - Light",
+    "file": "kh-wurtz/cup-light.png",
+    "productUrl": "https://lacabra.com/products/k-h-wurtz-cup-light",
+    "price": "~$40",
+    "background": "transparent"
+  },
+  {
+    "brand": "K.H. Würtz",
+    "brandUrl": "https://khwurtz.dk",
+    "name": "K.H. Würtz Cup - Dark",
+    "file": "kh-wurtz/cup-dark.png",
+    "productUrl": "https://lacabra.com/products/kh-wurtz-cup-dark",
+    "price": "~$40",
+    "background": "transparent"
+  },
+  {
+    "brand": "K.H. Würtz",
+    "brandUrl": "https://khwurtz.dk",
+    "name": "K.H. Würtz Espresso Cup",
+    "file": "kh-wurtz/espresso-cup.png",
+    "productUrl": "https://lacabra.com/products/kh-wurtz-cup-espresso-dark",
+    "price": "~$62",
+    "background": "transparent"
+  },
+  {
+    "brand": "Jono Pandolfi",
+    "brandUrl": "https://jonopandolfi.com",
+    "name": "Mug (Coupe Collection)",
+    "file": "jono-pandolfi/mug.png",
+    "productUrl": "https://jonopandolfi.com/products/mug",
+    "price": "$48",
+    "background": "transparent"
+  },
+  {
+    "brand": "Jono Pandolfi",
+    "brandUrl": "https://jonopandolfi.com",
+    "name": "Coffee Cup",
+    "file": "jono-pandolfi/coffee-cup.png",
+    "productUrl": "https://jonopandolfi.com/products/coffee-cups",
+    "price": "$50",
+    "background": "transparent"
+  },
+  {
+    "brand": "Jono Pandolfi",
+    "brandUrl": "https://jonopandolfi.com",
+    "name": "Espresso Cup",
+    "file": "jono-pandolfi/espresso-cup.png",
+    "productUrl": "https://jonopandolfi.com/products/espresso-cup",
+    "price": "$40",
+    "background": "transparent"
+  },
+  {
+    "brand": "Ginori 1735",
+    "brandUrl": "https://www.ginori1735.com",
+    "name": "Oriente Italiano Rubrum Mug (Gold)",
+    "file": "ginori/oriente-italiano-rubrum-mug.png",
+    "productUrl": "https://www.ginori1735.com/us/en/mug-oriente-italiano-rubrum-003rg00-ftz700lx0400g00132900",
+    "price": "~$255",
+    "background": "white"
+  },
+  {
+    "brand": "Ginori 1735",
+    "brandUrl": "https://www.ginori1735.com",
+    "name": "Oriente Italiano Aurum Mug (Gold)",
+    "file": "ginori/oriente-italiano-aurum-mug.png",
+    "productUrl": "https://www.ginori1735.com/us/en/mug-oriente-italiano-aurum-003rg00-ftz700lx0400g00133000",
+    "price": "~$255",
+    "background": "white"
+  },
+  {
+    "brand": "Ginori 1735",
+    "brandUrl": "https://www.ginori1735.com",
+    "name": "Oriente Italiano Porpora Mug",
+    "file": "ginori/oriente-italiano-porpora-mug.jpg",
+    "productUrl": "https://www.ginori1735.com/us/en/mug-oriente-italiano-porpora-oriente-italiano-003rg00-ftz700010400g00124200",
+    "price": "~$225",
+    "background": "white"
+  }
+]

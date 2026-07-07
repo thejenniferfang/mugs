@@ -1,0 +1,235 @@
+// Saetter 15: 5 rows x 3 columns. Compartment rects in normalized image
+// coordinates (fractions of the 800x1200 product photo), calibrated visually.
+const GRID = (() => {
+  // measured from the 800x1200 packshot via pixel scan (see README)
+  const colsX = [ [235, 337], [347, 449], [460, 561] ];
+  const rowsY = [ [282, 404], [412, 535], [542, 665], [672, 795], [803, 936] ];
+  const cells = [];
+  for (const [top, bottom] of rowsY) {
+    for (const [x0, x1] of colsX) {
+      cells.push({
+        x: x0 / 800,
+        y: top / 1200,
+        w: (x1 - x0) / 800,
+        h: (bottom - top) / 1200,
+      });
+    }
+  }
+  return cells;
+})();
+
+const STORAGE_KEY = "mug-shelf-placement-v1";
+
+const wrap = document.getElementById("shelf-wrap");
+const shelfImg = document.getElementById("shelf-img");
+const slotsEl = document.getElementById("slots");
+const trayEl = document.getElementById("tray");
+const DEBUG = new URLSearchParams(location.search).has("debug");
+
+// placement[slot] = mug index into MUGS, or null
+let placement = new Array(15).fill(null);
+try {
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  if (Array.isArray(saved) && saved.length === 15) {
+    placement = saved.map((v) => (Number.isInteger(v) && MUGS[v] ? v : null));
+  }
+} catch {}
+
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(placement));
+}
+
+function cutoutSrc(mug) {
+  return "cutouts/" + mug.file.replace(/\.\w+$/, ".png");
+}
+
+function slotRects() {
+  const r = shelfImg.getBoundingClientRect();
+  return GRID.map((c) => ({
+    left: r.left + c.x * r.width,
+    top: r.top + c.y * r.height,
+    width: c.w * r.width,
+    height: c.h * r.height,
+  }));
+}
+
+function renderSlots() {
+  slotsEl.innerHTML = "";
+  const w = shelfImg.clientWidth, h = shelfImg.clientHeight;
+  GRID.forEach((c, i) => {
+    const div = document.createElement("div");
+    div.className = "slot" + (DEBUG ? " debug" : "");
+    div.dataset.slot = i;
+    div.style.left = c.x * w + "px";
+    div.style.top = c.y * h + "px";
+    div.style.width = c.w * w + "px";
+    div.style.height = c.h * h + "px";
+    slotsEl.appendChild(div);
+
+    const mugIdx = placement[i];
+    if (mugIdx !== null) {
+      const mug = MUGS[mugIdx];
+      const holder = document.createElement("div");
+      holder.className = "placed";
+      holder.dataset.slot = i;
+      // mug sits on the shelf board: bottom-aligned, slight inset
+      const inset = 0.06;
+      holder.style.left = (c.x + c.w * inset) * w + "px";
+      holder.style.top = (c.y + c.h * 0.08) * h + "px";
+      holder.style.width = c.w * (1 - 2 * inset) * w + "px";
+      holder.style.height = c.h * 0.9 * h + "px";
+      const img = document.createElement("img");
+      img.src = cutoutSrc(mug);
+      img.alt = mug.brand + " " + mug.name;
+      img.draggable = false;
+      holder.appendChild(img);
+      holder.addEventListener("pointerdown", (e) => startDrag(e, mugIdx, i));
+      slotsEl.appendChild(holder);
+    }
+  });
+}
+
+function renderTray() {
+  trayEl.innerHTML = "";
+  MUGS.forEach((mug, idx) => {
+    const div = document.createElement("div");
+    div.className = "tray-mug" + (placement.includes(idx) ? " in-use" : "");
+    div.title = mug.brand + " " + mug.name;
+    const img = document.createElement("img");
+    img.src = cutoutSrc(mug);
+    img.alt = mug.brand + " " + mug.name;
+    img.draggable = false;
+    div.appendChild(img);
+    div.addEventListener("pointerdown", (e) => startDrag(e, idx, null));
+    trayEl.appendChild(div);
+  });
+}
+
+function render() {
+  renderSlots();
+  renderTray();
+}
+
+// ---------- drag ----------
+
+let drag = null; // { mugIdx, fromSlot, ghost }
+
+function startDrag(e, mugIdx, fromSlot) {
+  e.preventDefault();
+  const ghost = document.createElement("div");
+  ghost.className = "ghost";
+  const rects = slotRects();
+  const size = fromSlot !== null
+    ? { w: rects[fromSlot].width, h: rects[fromSlot].height }
+    : { w: 72, h: 72 };
+  ghost.style.width = size.w + "px";
+  ghost.style.height = size.h + "px";
+  const img = document.createElement("img");
+  img.src = cutoutSrc(MUGS[mugIdx]);
+  ghost.appendChild(img);
+  document.body.appendChild(ghost);
+  drag = { mugIdx, fromSlot, ghost };
+  moveGhost(e);
+  window.addEventListener("pointermove", moveGhost);
+  window.addEventListener("pointerup", endDrag, { once: true });
+}
+
+function hitSlot(e) {
+  const rects = slotRects();
+  for (let i = 0; i < rects.length; i++) {
+    const r = rects[i];
+    if (e.clientX >= r.left && e.clientX <= r.left + r.width &&
+        e.clientY >= r.top && e.clientY <= r.top + r.height) return i;
+  }
+  return null;
+}
+
+function moveGhost(e) {
+  if (!drag) return;
+  drag.ghost.style.left = e.clientX - parseFloat(drag.ghost.style.width) / 2 + "px";
+  drag.ghost.style.top = e.clientY - parseFloat(drag.ghost.style.height) * 0.7 + "px";
+  const over = hitSlot(e);
+  document.querySelectorAll(".slot").forEach((s, i) =>
+    s.classList.toggle("drop-target", i === over));
+}
+
+function endDrag(e) {
+  window.removeEventListener("pointermove", moveGhost);
+  if (!drag) return;
+  const { mugIdx, fromSlot, ghost } = drag;
+  ghost.remove();
+  drag = null;
+  document.querySelectorAll(".slot").forEach((s) => s.classList.remove("drop-target"));
+
+  const target = hitSlot(e);
+  if (target !== null) {
+    const displaced = placement[target];
+    placement[target] = mugIdx;
+    if (fromSlot !== null && fromSlot !== target) {
+      // swap if the target was occupied, otherwise just vacate the origin
+      placement[fromSlot] = displaced !== mugIdx ? displaced : null;
+      if (displaced === null) placement[fromSlot] = null;
+    }
+  } else if (fromSlot !== null) {
+    placement[fromSlot] = null; // dropped outside: remove from shelf
+  }
+  save();
+  render();
+}
+
+// ---------- export ----------
+
+function loadImage(src) {
+  return new Promise((res, rej) => {
+    const img = new Image();
+    img.onload = () => res(img);
+    img.onerror = rej;
+    img.src = src;
+  });
+}
+
+async function exportPNG() {
+  const shelf = await loadImage(shelfImg.src);
+  const W = shelf.naturalWidth, H = shelf.naturalHeight;
+  const canvas = document.createElement("canvas");
+  canvas.width = W;
+  canvas.height = H;
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(shelf, 0, 0, W, H);
+
+  for (let i = 0; i < 15; i++) {
+    const mugIdx = placement[i];
+    if (mugIdx === null) continue;
+    const cell = GRID[i];
+    const img = await loadImage(cutoutSrc(MUGS[mugIdx]));
+    const inset = 0.06;
+    const boxX = (cell.x + cell.w * inset) * W;
+    const boxY = (cell.y + cell.h * 0.08) * H;
+    const boxW = cell.w * (1 - 2 * inset) * W;
+    const boxH = cell.h * 0.9 * H;
+    const scale = Math.min(boxW / img.naturalWidth, boxH / img.naturalHeight);
+    const dw = img.naturalWidth * scale, dh = img.naturalHeight * scale;
+    // centered horizontally, resting on the compartment floor
+    ctx.drawImage(img, boxX + (boxW - dw) / 2, boxY + boxH - dh, dw, dh);
+  }
+
+  canvas.toBlob((blob) => {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "my-mug-shelf.png";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  }, "image/png");
+}
+
+document.getElementById("export").addEventListener("click", exportPNG);
+document.getElementById("clear").addEventListener("click", () => {
+  placement = new Array(15).fill(null);
+  save();
+  render();
+});
+
+window.addEventListener("resize", renderSlots);
+
+if (shelfImg.complete) render();
+else shelfImg.addEventListener("load", render);

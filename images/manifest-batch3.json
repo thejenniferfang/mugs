@@ -1,0 +1,85 @@
+[
+  {
+    "brand": "Olivia Ko",
+    "brandUrl": "https://oliviasnowceramics.com/",
+    "name": "Handmade Angled Ceramic Mug",
+    "file": "olivia-ko/angled-mug.jpg",
+    "productUrl": "https://oliviasnowceramics.com/products/handmade-angled-mug",
+    "price": "$48",
+    "background": "photo",
+    "note": "No ceramicist named 'Olivia Ko' found; used Olivia Snow Ceramics (Los Angeles), the most prominent match. She has a 'Maison Ko x Olivia Snow' collaboration, likely the source of the name. All her official product photos are styled on kraft/paper backdrops, not white."
+  },
+  {
+    "brand": "Olivia Ko",
+    "brandUrl": "https://oliviasnowceramics.com/",
+    "name": "Everyday Ceramic Glossy White Mug",
+    "file": "olivia-ko/everyday-glossy-white-mug.jpg",
+    "productUrl": "https://oliviasnowceramics.com/products/everyday-mug-in-glossy-white",
+    "price": "$40",
+    "background": "photo"
+  },
+  {
+    "brand": "Olivia Ko",
+    "brandUrl": "https://oliviasnowceramics.com/",
+    "name": "Marbled Mug",
+    "file": "olivia-ko/marbled-mug.jpg",
+    "productUrl": "https://oliviasnowceramics.com/products/marbled-mug",
+    "price": "$45",
+    "background": "photo"
+  },
+  {
+    "brand": "MK Studios",
+    "brandUrl": "https://www.mk-ceramics.com/en-us",
+    "name": "Moon Coffee Cup",
+    "file": "mk-studios/moon-cup.jpg",
+    "productUrl": "https://www.mk-ceramics.com/en-us/products/moon",
+    "price": "$32",
+    "background": "photo",
+    "note": "Matched to MK STUDIO, Copenhagen (mk-ceramics.com), the most prominent ceramics studio by this name. Their signature porcelain coffee cups are handleless; official photos are studio shots on a pale gray backdrop showing a set of sizes."
+  },
+  {
+    "brand": "MK Studios",
+    "brandUrl": "https://www.mk-ceramics.com/en-us",
+    "name": "Bubble Blue Coffee Cup",
+    "file": "mk-studios/bubble-blue-cup.jpg",
+    "productUrl": "https://www.mk-ceramics.com/en-us/products/bubble-blue",
+    "price": "$33",
+    "background": "photo"
+  },
+  {
+    "brand": "MK Studios",
+    "brandUrl": "https://www.mk-ceramics.com/en-us",
+    "name": "Black Splash Coffee Cup",
+    "file": "mk-studios/black-splash-cup.jpg",
+    "productUrl": "https://www.mk-ceramics.com/en-us/products/black-splash",
+    "price": "$28",
+    "background": "photo"
+  },
+  {
+    "brand": "Jars",
+    "brandUrl": "https://www.jarsusa.com/",
+    "name": "Cantine Mug",
+    "file": "jars/cantine-mug.jpg",
+    "productUrl": "https://www.jarsusa.com/products/cantine-mug",
+    "price": "$50",
+    "background": "white"
+  },
+  {
+    "brand": "Jars",
+    "brandUrl": "https://www.jarsusa.com/",
+    "name": "Tourron Mug (Jade)",
+    "file": "jars/tourron-mug.jpg",
+    "productUrl": "https://www.jarsusa.com/products/tourron-mug",
+    "price": "$54",
+    "background": "white"
+  },
+  {
+    "brand": "Jars",
+    "brandUrl": "https://www.jarsusa.com/",
+    "name": "Vuelta Mug",
+    "file": "jars/vuelta-mug.jpg",
+    "productUrl": "https://www.jarsusa.com/products/vuelta-mug",
+    "price": "$44",
+    "background": "white"
+  }
+]

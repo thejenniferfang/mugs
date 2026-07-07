@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mug Shelf</title>
+  <meta name="description" content="A personal index of favorite ceramic mugs." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="shelf.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <header class="brand">
+      <h1 class="site-title">Mug Shelf</h1>
+      <p class="byline">by <a href="https://x.com/jenfang" target="_blank" rel="noopener">Jennifer Fang</a></p>
+    </header>
+
+    <nav class="pages">
+      <a class="nav-link is-here" href="index.html">Index</a>
+      <a class="nav-link" href="shelf.html">Shelf</a>
+    </nav>
+
+    <div class="search-wrap">
+      <span class="search-icon">&#8981;</span>
+      <input id="search" type="text" placeholder="Search" autocomplete="off" spellcheck="false" />
+    </div>
+
+    <div class="filter-group" id="group-brands">
+      <button class="group-toggle" data-group="brands" aria-expanded="false">
+        <span class="group-title">Brands</span>
+        <span class="group-value" id="brand-value">All</span>
+        <span class="group-chev" aria-hidden="true"></span>
+      </button>
+      <ul id="brand-list" class="filter-list">
+        <li><button class="filter-btn is-active" data-brand="all">All</button></li>
+      </ul>
+    </div>
+
+    <div class="filter-group" id="group-sort">
+      <button class="group-toggle" data-group="sort" aria-expanded="false">
+        <span class="group-title">Sort</span>
+        <span class="group-value" id="sort-value">Curated</span>
+        <span class="group-chev" aria-hidden="true"></span>
+      </button>
+      <ul class="filter-list" id="sort-list">
+        <li><button class="sort-btn is-active" data-sort="default">Curated</button></li>
+        <li><button class="sort-btn" data-sort="brand">Brand A&#8594;Z</button></li>
+        <li><button class="sort-btn" data-sort="price-asc">Price: Low &#8594; High</button></li>
+        <li><button class="sort-btn" data-sort="price-desc">Price: High &#8594; Low</button></li>
+      </ul>
+    </div>
+
+    <footer class="sidebar-footer">
+      <p id="count" class="count"></p>
+      <p class="colophon">A personal index of good mugs.</p>
+    </footer>
+  </aside>
+
+  <main class="grid" id="grid"></main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

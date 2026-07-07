@@ -1,0 +1,7 @@
+# compiled cutout tool (rebuild from tools/cutout.m)
+tools/cutout
+
+# local dev / editor
+.claude/
+.DS_Store
+*.log

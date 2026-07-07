@@ -1,0 +1,77 @@
+[
+  {
+    "brand": "Kinto",
+    "brandUrl": "https://kinto-usa.com",
+    "name": "SCS-S03 Mug 320ml",
+    "file": "kinto/scs-s03-mug-320ml.jpg",
+    "productUrl": "https://kinto-usa.com/products/20754",
+    "price": "$24",
+    "background": "white"
+  },
+  {
+    "brand": "Kinto",
+    "brandUrl": "https://kinto-usa.com",
+    "name": "CLK-151 Large Mug 410ml",
+    "file": "kinto/clk-151-large-mug-410ml.jpg",
+    "productUrl": "https://kinto-usa.com/products/29517",
+    "price": "$25",
+    "background": "white"
+  },
+  {
+    "brand": "Kinto",
+    "brandUrl": "https://kinto-usa.com",
+    "name": "SCS Stacking Mug 320ml",
+    "file": "kinto/scs-stacking-mug-320ml.jpg",
+    "productUrl": "https://kinto-usa.com/products/27657",
+    "price": "$14",
+    "background": "white"
+  },
+  {
+    "brand": "CG Ceramics",
+    "brandUrl": "https://www.cg-ceramics.com",
+    "name": "Angled Low Mug, Peat",
+    "file": "cg-ceramics/angled-low-mug-peat.webp",
+    "productUrl": "https://www.cg-ceramics.com/shop/angled-mug-peat",
+    "price": "$54",
+    "background": "photo",
+    "note": "Identified as CGCERAMICS by Christie Goodfellow (cg-ceramics.com), the most prominent studio under this name; founded in Cincinnati, now based in Central New York. Known for speckled, earth-toned restaurant stoneware. Image is a studio shot on a near-white backdrop. CDN served WebP regardless of URL extension."
+  },
+  {
+    "brand": "CG Ceramics",
+    "brandUrl": "https://www.cg-ceramics.com",
+    "name": "Demitasse with Saucer, Peat",
+    "file": "cg-ceramics/demitasse-with-saucer-peat.webp",
+    "productUrl": "https://www.cg-ceramics.com/shop/demitasse-saucer-peat",
+    "price": "$42",
+    "background": "photo",
+    "note": "Studio shot on near-white backdrop. Only two mug/cup items were listed in the current cg-ceramics.com shop."
+  },
+  {
+    "brand": "Erin Louis",
+    "brandUrl": "https://www.erinlouiseclancy.com",
+    "name": "GGF3.26 Mug.1",
+    "file": "erin-louis/ggf-3-26-mug-1.webp",
+    "productUrl": "https://www.erinlouiseclancy.com/shop/p/ggf1225mug1-8xfgl",
+    "price": "$100",
+    "background": "photo",
+    "note": "erinlouisclay.com does not exist; the most prominent matching ceramicist is Erin Louise Clancy Studio (erinlouiseclancy.com), a one-person wheel-thrown stoneware studio in Ridgewood, Queens, NY known for patterned/illustrated pieces. These mugs are from the GOOD GOOD FRIEND collaboration with LORDCOWBOY. Studio shot on near-white backdrop. CDN served WebP regardless of URL extension."
+  },
+  {
+    "brand": "Erin Louis",
+    "brandUrl": "https://www.erinlouiseclancy.com",
+    "name": "GGF3.26 Mug.2",
+    "file": "erin-louis/ggf-3-26-mug-2.webp",
+    "productUrl": "https://www.erinlouiseclancy.com/shop/p/ggf1225mug1-8xfgl-d833p",
+    "price": "$100",
+    "background": "photo"
+  },
+  {
+    "brand": "Erin Louis",
+    "brandUrl": "https://www.erinlouiseclancy.com",
+    "name": "GGF3.26 Mug.3",
+    "file": "erin-louis/ggf-3-26-mug-3.webp",
+    "productUrl": "https://www.erinlouiseclancy.com/shop/p/ggf1225mug1-8xfgl-d833p-rk2bd",
+    "price": "$100",
+    "background": "photo"
+  }
+]

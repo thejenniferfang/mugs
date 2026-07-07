@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mug Shelf - Arrange</title>
+  <meta name="description" content="Arrange your favorite mugs on a Saetter 15 shelf." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="shelf.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <header class="brand">
+      <h1 class="site-title">Mug Shelf</h1>
+      <p class="byline">by <a href="https://x.com/jenfang" target="_blank" rel="noopener">Jennifer Fang</a></p>
+    </header>
+
+    <nav class="pages">
+      <a class="nav-link" href="index.html">Index</a>
+      <a class="nav-link is-here" href="shelf.html">Shelf</a>
+    </nav>
+
+    <div class="arrange">
+      <p class="filter-heading">Arrange</p>
+      <p class="hint">Drag mugs from the tray into the shelf. Drag a placed mug to move it, or drop it outside the shelf to take it out.</p>
+    </div>
+
+    <div class="actions">
+      <button id="export" class="action-btn">Export PNG &#8595;</button>
+      <button id="clear" class="action-btn">Clear shelf</button>
+    </div>
+
+    <footer class="sidebar-footer">
+      <p class="colophon">Shelf: S&aelig;tter 15, oiled oak.<br /><a class="quiet-link" href="https://saetter.dk/en/products/saetter-15-olieret-eg-kopreol-saettekasse" target="_blank" rel="noopener">saetter.dk &#8599;</a></p>
+    </footer>
+  </aside>
+
+  <main class="shelf-main">
+    <div class="shelf-stage">
+      <div class="shelf-wrap" id="shelf-wrap">
+        <img id="shelf-img" src="cutouts/shelf/saetter-15.png" alt="Saetter 15 cup shelf in oiled oak" draggable="false" />
+        <div id="slots"></div>
+      </div>
+    </div>
+    <div class="tray" id="tray"></div>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="shelf.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+[
+  {
+    "brand": "Heath Ceramics",
+    "brandUrl": "https://www.heathceramics.com",
+    "name": "Large Mug (Coupe Line)",
+    "file": "heath/large-mug.jpg",
+    "productUrl": "https://www.heathceramics.com/products/large-mug",
+    "price": "$55",
+    "background": "white"
+  },
+  {
+    "brand": "Heath Ceramics",
+    "brandUrl": "https://www.heathceramics.com",
+    "name": "Studio Mug in Turmeric",
+    "file": "heath/studio-mug.jpg",
+    "productUrl": "https://www.heathceramics.com/products/studio-mug-turmeric",
+    "price": "$72",
+    "background": "white"
+  },
+  {
+    "brand": "Heath Ceramics",
+    "brandUrl": "https://www.heathceramics.com",
+    "name": "Stack Mug",
+    "file": "heath/stack-mug.jpg",
+    "productUrl": "https://www.heathceramics.com/products/stack-mug",
+    "price": "$60",
+    "background": "white"
+  },
+  {
+    "brand": "Haand",
+    "brandUrl": "https://haand.us",
+    "name": "Diner Mug",
+    "file": "haand/diner-mug.jpg",
+    "productUrl": "https://haand.us/products/diner-mugs",
+    "price": "$45",
+    "background": "white"
+  },
+  {
+    "brand": "Haand",
+    "brandUrl": "https://haand.us",
+    "name": "10oz Tapered Mug",
+    "file": "haand/tapered-mug.jpg",
+    "productUrl": "https://haand.us/products/10oz-tapered-mug",
+    "price": "$50",
+    "background": "white"
+  },
+  {
+    "brand": "Haand",
+    "brandUrl": "https://haand.us",
+    "name": "10oz Short Mug",
+    "file": "haand/short-mug.jpg",
+    "productUrl": "https://haand.us/products/10oz-short-mug",
+    "price": "$48",
+    "background": "white"
+  },
+  {
+    "brand": "Hasami Porcelain",
+    "brandUrl": "https://shop.tortoisegeneralstore.com/pages/hasami-porcelain",
+    "name": "Mug Natural Medium (HP020)",
+    "file": "hasami/mug-natural.jpg",
+    "productUrl": "https://shop.tortoisegeneralstore.com/products/mug-natural-medium",
+    "price": "$36",
+    "background": "photo"
+  },
+  {
+    "brand": "Hasami Porcelain",
+    "brandUrl": "https://shop.tortoisegeneralstore.com/pages/hasami-porcelain",
+    "name": "Mug Black Medium (HPB020)",
+    "file": "hasami/mug-black.jpg",
+    "productUrl": "https://shop.tortoisegeneralstore.com/products/mug-black-medium",
+    "price": "$36",
+    "background": "photo"
+  },
+  {
+    "brand": "Hasami Porcelain",
+    "brandUrl": "https://shop.tortoisegeneralstore.com/pages/hasami-porcelain",
+    "name": "Mug Gloss Gray Medium (HPM020)",
+    "file": "hasami/mug-gloss-gray.jpg",
+    "productUrl": "https://shop.tortoisegeneralstore.com/products/mug-gloss-gray-medium",
+    "price": "$36",
+    "background": "photo"
+  }
+]
