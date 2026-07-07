@@ -79,6 +79,22 @@
   object-position: bottom;
   display: block;
   pointer-events: none;
+  transform-origin: bottom center;
+}
+
+/* visual equivalent of the placement clink: a quick settle */
+@keyframes mug-pop {
+  0% { transform: scale(1.05); }
+  55% { transform: scale(0.99); }
+  100% { transform: scale(1); }
+}
+
+.placed.just-placed img {
+  animation: mug-pop 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .placed.just-placed img { animation: none; }
 }
 
 /* ---------- tray ---------- */

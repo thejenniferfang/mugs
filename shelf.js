@@ -30,10 +30,15 @@ const trayEl = document.getElementById("tray");
 const DEBUG = new URLSearchParams(location.search).has("debug");
 
 // ---------- placement sound ----------
-// A soft ceramic "clink" synthesized with Web Audio (no audio files). Inharmonic
-// bright partials for the porcelain ring + a short low body for the wood contact.
+// A soft ceramic "clink" synthesized with Web Audio (no audio files):
+//  - a filtered-noise transient for the porcelain-on-wood contact tick
+//  - inharmonic oscillator partials for the ring
+//  - a short low sine for the body
+// prefers-reduced-motion is treated as a sound-sensitivity signal.
 const SOUND_KEY = "mug-shelf-sound";
-let soundOn = localStorage.getItem(SOUND_KEY) !== "off";
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const storedSound = localStorage.getItem(SOUND_KEY);
+let soundOn = storedSound ? storedSound === "on" : !reduceMotion;
 let audioCtx = null;
 
 function clink() {
@@ -44,41 +49,67 @@ function clink() {
   } catch { return; }
   const ctx = audioCtx;
   const t = ctx.currentTime;
+  const nodes = [];
+  const track = (n) => (nodes.push(n), n);
 
-  const master = ctx.createGain();
-  master.gain.value = 0.16;
-  const lp = ctx.createBiquadFilter();
+  const master = track(ctx.createGain());
+  master.gain.value = 0.16; // subtle by default
+  const lp = track(ctx.createBiquadFilter());
   lp.type = "lowpass";
   lp.frequency.value = 5200;
   master.connect(lp).connect(ctx.destination);
 
   const detune = 1 + (Math.random() - 0.5) * 0.08; // slight per-hit pitch variation
 
+  // contact transient: ~10ms filtered noise burst (bandpass, crisp range)
+  const nlen = Math.floor(ctx.sampleRate * 0.01);
+  const buffer = ctx.createBuffer(1, nlen, ctx.sampleRate);
+  const nd = buffer.getChannelData(0);
+  for (let i = 0; i < nlen; i++) nd[i] = (Math.random() * 2 - 1) * Math.exp(-i / (nlen * 0.35));
+  const noise = track(ctx.createBufferSource());
+  noise.buffer = buffer;
+  const bp = track(ctx.createBiquadFilter());
+  bp.type = "bandpass";
+  bp.frequency.value = 4200;
+  bp.Q.value = 3;
+  const ng = track(ctx.createGain());
+  ng.gain.setValueAtTime(0.9, t);
+  noise.connect(bp).connect(ng).connect(master);
+  noise.start(t);
+
+  // ceramic ring: inharmonic partials (the last one is the longest voice)
   const partials = [1180, 1680, 2550];
   const rel = [1.0, 0.5, 0.28];
+  const ringEnd = t + 0.3;
+  let lastVoice = null;
   partials.forEach((f, i) => {
-    const o = ctx.createOscillator();
+    const o = track(ctx.createOscillator());
     o.type = i === 0 ? "triangle" : "sine";
     o.frequency.value = f * detune;
-    const g = ctx.createGain();
+    const g = track(ctx.createGain());
     g.gain.setValueAtTime(0.0001, t);
     g.gain.exponentialRampToValueAtTime(0.5 * rel[i], t + 0.004);
     g.gain.exponentialRampToValueAtTime(0.0001, t + 0.18 + i * 0.02);
     o.connect(g).connect(master);
     o.start(t);
-    o.stop(t + 0.26);
+    o.stop(ringEnd);
+    lastVoice = o;
   });
 
-  const body = ctx.createOscillator();
+  // low body (wood contact warmth)
+  const body = track(ctx.createOscillator());
   body.type = "sine";
   body.frequency.value = 190 * detune;
-  const bg = ctx.createGain();
+  const bg = track(ctx.createGain());
   bg.gain.setValueAtTime(0.0001, t);
   bg.gain.exponentialRampToValueAtTime(0.4, t + 0.005);
   bg.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
   body.connect(bg).connect(master);
   body.start(t);
   body.stop(t + 0.12);
+
+  // disconnect the whole graph once the longest voice finishes
+  lastVoice.onended = () => nodes.forEach((n) => { try { n.disconnect(); } catch {} });
 }
 
 // placement[slot] = mug index into MUGS, or null
@@ -108,6 +139,9 @@ function slotRects() {
   }));
 }
 
+// slot index that was just filled by a drop, so render() can pop it once
+let justPlacedSlot = null;
+
 function renderSlots() {
   slotsEl.innerHTML = "";
   const w = shelfImg.clientWidth, h = shelfImg.clientHeight;
@@ -125,7 +159,7 @@ function renderSlots() {
     if (mugIdx !== null) {
       const mug = MUGS[mugIdx];
       const holder = document.createElement("div");
-      holder.className = "placed";
+      holder.className = "placed" + (i === justPlacedSlot ? " just-placed" : "");
       holder.dataset.slot = i;
       // mug sits on the shelf board: bottom-aligned, slight inset
       const inset = 0.06;
@@ -163,6 +197,7 @@ function renderTray() {
 function render() {
   renderSlots();
   renderTray();
+  justPlacedSlot = null; // pop only on the render right after a placement
 }
 
 // ---------- drag ----------
@@ -219,6 +254,7 @@ function endDrag(e) {
   const target = hitSlot(e);
   if (target !== null) {
     clink();
+    justPlacedSlot = target;
     const displaced = placement[target];
     placement[target] = mugIdx;
     if (fromSlot !== null && fromSlot !== target) {
