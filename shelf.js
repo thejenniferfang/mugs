@@ -1,17 +1,20 @@
 // Saetter 15: 5 rows x 3 columns. Compartment rects in normalized image
 // coordinates (fractions of the 800x1200 product photo), calibrated visually.
 const GRID = (() => {
-  // measured from the 800x1200 packshot via pixel scan (see README)
+  // Board positions measured in the original 800x1200 packshot. The shelf image
+  // was then cropped tight to [OX,OY, CW x CH] of that photo, so we offset the
+  // measurements into the cropped canvas and normalize by the cropped size.
+  const OX = 213, OY = 258, CW = 371, CH = 688;
   const colsX = [ [235, 337], [347, 449], [460, 561] ];
   const rowsY = [ [282, 404], [412, 535], [542, 665], [672, 795], [803, 936] ];
   const cells = [];
   for (const [top, bottom] of rowsY) {
     for (const [x0, x1] of colsX) {
       cells.push({
-        x: x0 / 800,
-        y: top / 1200,
-        w: (x1 - x0) / 800,
-        h: (bottom - top) / 1200,
+        x: (x0 - OX) / CW,
+        y: (top - OY) / CH,
+        w: (x1 - x0) / CW,
+        h: (bottom - top) / CH,
       });
     }
   }
