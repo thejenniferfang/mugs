@@ -53,7 +53,7 @@
 
 #shelf-img {
   display: block;
-  height: min(94vh, 1120px);
+  height: min(78vh, 900px);
   width: auto;
   pointer-events: none;
 }
