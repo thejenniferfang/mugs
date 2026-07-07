@@ -52,10 +52,12 @@ int main(int argc, const char *argv[]) {
         // optional pre-crop in source top-left pixel coords: --crop x,y,w,h
         BOOL hasCrop = NO;
         BOOL fullFrame = NO; // keep original canvas size (skip bbox crop)
+        BOOL square = NO;    // pad result onto a centered transparent square
         double cropX = 0, cropY = 0, cropW = 0, cropH = 0;
         while (argi < argc && strncmp(argv[argi], "--", 2) == 0) {
             if (strcmp(argv[argi], "--alpha-only") == 0) { alphaOnly = YES; argi++; }
             else if (strcmp(argv[argi], "--full") == 0) { fullFrame = YES; argi++; }
+            else if (strcmp(argv[argi], "--square") == 0) { square = YES; argi++; }
             else if (strcmp(argv[argi], "--crop") == 0 && argi + 1 < argc) {
                 sscanf(argv[argi + 1], "%lf,%lf,%lf,%lf", &cropX, &cropY, &cropW, &cropH);
                 hasCrop = YES; argi += 2;
@@ -122,6 +124,19 @@ int main(int argc, const char *argv[]) {
                 if (!CGRectIsNull(bbox) && !CGRectIsEmpty(bbox)) {
                     out = [out imageByCroppingToRect:bbox];
                 }
+            }
+
+            if (square) {
+                // center on a transparent square with ~8% breathing room
+                CGRect e = out.extent;
+                double side = (e.size.width > e.size.height ? e.size.width : e.size.height) * 1.16;
+                double ox = (side - e.size.width) / 2 - e.origin.x;
+                double oy = (side - e.size.height) / 2 - e.origin.y;
+                CIImage *shifted = [out imageByApplyingTransform:CGAffineTransformMakeTranslation(ox, oy)];
+                CIImage *clear = [[CIImage imageWithColor:[CIColor clearColor]]
+                                  imageByCroppingToRect:CGRectMake(0, 0, side, side)];
+                out = [[shifted imageByCompositingOverImage:clear]
+                       imageByCroppingToRect:CGRectMake(0, 0, side, side)];
             }
 
             NSError *werr = nil;
